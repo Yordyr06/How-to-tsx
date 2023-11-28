@@ -1,32 +1,40 @@
 import React from "react"
 import { useState } from "react"
+import type { MouseEventHandler } from "react"
 import { Image } from "./components/Image"
 import { generateNumber, generateId } from "./utils/utilitiesFn"
+import { Button } from "./components/Button"
 
-interface ImageItems {
+type ImageItems = {
   id: string,
   url: string,
 }
 
 function App() {
-  const [srcs, setSrcs] = useState<Array<ImageItems>>([
-    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
-    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
-    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
-    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
-  ])
+  const [images, setImages] = useState<Array<ImageItems>>([])
+
+  const getImage: MouseEventHandler<HTMLButtonElement> = (event): void => {
+    event.preventDefault();
+    const newImages: ImageItems = {
+      id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`
+    }
+
+    setImages([...images, newImages]);
+  }
 
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex flex-col justify-center content-center">
         <h1 className="mb-4">
           <span className="font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-purple-300 to-blue-600">
             Hello World
           </span>
         </h1>
+
+        <Button onClick={getImage} />
       </div>
       {
-        srcs.map(({id, url}) => (
+        images.map(({ id, url }) => (
           <span key={id} className="p-2">
             <Image url={url} />
           </span>
