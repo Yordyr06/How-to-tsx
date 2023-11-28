@@ -1,12 +1,12 @@
-import { random } from "../utils/randomFn"
+interface Props {
+  src: string;
+}
 
-export const Image = (): JSX.Element => {
-  const image: string = `https://randomfox.ca/images/${random()}.jpg` 
-  
+export const Image = ({ src }: Props): JSX.Element => {
   return (
     <figure className="flex justify-center">
       <img 
-        src={image} 
+        src={src} 
         alt=""
         className="w-80 h-auto rounded-md"
       />

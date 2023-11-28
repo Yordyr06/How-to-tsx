@@ -1,4 +1,6 @@
+import React from "react"
 import { Image } from "./components/Image"
+import { random } from "./utils/randomFn"
 
 function App() {
   return (
@@ -11,7 +13,7 @@ function App() {
         </h1>
       </div>
 
-      <Image />
+      <Image src={`https://randomfox.ca/images/${random()}.jpg`} />
     </>
   )
 }
