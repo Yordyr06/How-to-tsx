@@ -1,3 +1,5 @@
+import { Image } from "./components/Image"
+
 function App() {
   return (
     <>
@@ -8,6 +10,8 @@ function App() {
           </span>
         </h1>
       </div>
+
+      <Image />
     </>
   )
 }
