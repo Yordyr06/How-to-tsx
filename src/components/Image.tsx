@@ -1,12 +1,12 @@
 interface Props {
-  src: string;
+  url: string;
 }
 
-export const Image = ({ src }: Props): JSX.Element => {
+export const Image = ({ url }: Props): JSX.Element => {
   return (
     <figure className="flex justify-center">
       <img 
-        src={src} 
+        src={url} 
         alt=""
         className="w-80 h-auto rounded-md"
       />

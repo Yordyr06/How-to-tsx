@@ -1,14 +1,19 @@
 import React from "react"
 import { useState } from "react"
 import { Image } from "./components/Image"
-import { random } from "./utils/randomFn"
+import { generateNumber, generateId } from "./utils/utilitiesFn"
+
+interface ImageItems {
+  id: string,
+  url: string,
+}
 
 function App() {
-  const [srcs, setSrcs] = useState<string[]>([
-    `https://randomfox.ca/images/${random()}.jpg`,
-    `https://randomfox.ca/images/${random()}.jpg`,
-    `https://randomfox.ca/images/${random()}.jpg`,
-    `https://randomfox.ca/images/${random()}.jpg`
+  const [srcs, setSrcs] = useState<Array<ImageItems>>([
+    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
+    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
+    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
+    {id:generateId(), url:`https://randomfox.ca/images/${generateNumber()}.jpg`},
   ])
 
   return (
@@ -21,9 +26,9 @@ function App() {
         </h1>
       </div>
       {
-        srcs.map((src, key) => (
-          <span key={key} className="p-2">
-            <Image src={src} />
+        srcs.map(({id, url}) => (
+          <span key={id} className="p-2">
+            <Image url={url} />
           </span>
         ))
       }
