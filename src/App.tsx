@@ -34,11 +34,12 @@ function App() {
         <Button onClick={getImage} />
       </div>
       {
-        images.map(({ id, url }) => (
+        images.map(({ id, url }, index) => (
           <span key={id} className="p-2">
             <LazyImage 
               src={url}
               onClick={() => console.log("Hello")}
+              onLazyLoad={(image) => console.log(`Image #${index + 1} loaded. Node:`, image)}
               className="w-80 h-auto rounded-md bg-gray-200"
             />
           </span>

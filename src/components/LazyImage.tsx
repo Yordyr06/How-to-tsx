@@ -3,29 +3,39 @@ import type { ImgHTMLAttributes } from "react";
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
+  onLazyLoad?: (node:HTMLImageElement) => void
 }
 
-export const LazyImage = ({ src, ...props }: Props): JSX.Element => {
+export const LazyImage = ({ src, onLazyLoad, ...props }: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null)
+  const [isLazyLoad, setIsLazyLoad] = useState(false)
   const [url, setUrl] = useState("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4=")
 
   useEffect(()=> {
+    if (isLazyLoad) {
+      return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setUrl(src);
+        if (!entry.isIntersecting || !node.current) {
+          return
         }
       });
     });
 
-    if (node.current) {
-      observer.observe(node.current)
+    setUrl(src);
+    observer.disconnect()
+    setIsLazyLoad(true)
+
+    if (node.current && onLazyLoad) {
+      onLazyLoad(node.current)
     }
 
     return () => {
       observer.disconnect()
     }
-  }, [src]);
+  }, [src, onLazyLoad, isLazyLoad]);
 
   return (
     <figure className="flex justify-center">
