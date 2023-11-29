@@ -1,18 +1,19 @@
 import { useRef, useEffect, useState } from "react";
+import type { ImgHTMLAttributes } from "react";
 
-type Props = {
-  url: string;
+interface Props extends ImgHTMLAttributes<HTMLImageElement> {
+  src: string;
 }
 
-export const Image = ({ url }: Props): JSX.Element => {
+export const LazyImage = ({ src, ...props }: Props): JSX.Element => {
   const node = useRef<HTMLImageElement>(null)
-  const [src, setSrc] = useState("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4=")
+  const [url, setUrl] = useState("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4=")
 
   useEffect(()=> {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setSrc(url);
+          setUrl(src);
         }
       });
     });
@@ -24,15 +25,14 @@ export const Image = ({ url }: Props): JSX.Element => {
     return () => {
       observer.disconnect()
     }
-  }, [url]);
+  }, [src]);
 
   return (
     <figure className="flex justify-center">
       <img
         ref={node} 
-        src={src} 
-        alt=""
-        className="w-80 h-auto rounded-md bg-gray-200"
+        src={url} 
+        {...props}
       />
     </figure>
   )

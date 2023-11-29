@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import type { MouseEventHandler } from "react"
-import { Image } from "./components/Image"
+import { LazyImage } from "./components/LazyImage"
 import { generateNumber, generateId } from "./utils/utilitiesFn"
 import { Button } from "./components/Button"
 
@@ -36,7 +36,11 @@ function App() {
       {
         images.map(({ id, url }) => (
           <span key={id} className="p-2">
-            <Image url={url} />
+            <LazyImage 
+              src={url}
+              onClick={() => console.log("Hello")}
+              className="w-80 h-auto rounded-md bg-gray-200"
+            />
           </span>
         ))
       }
